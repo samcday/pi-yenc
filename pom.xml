@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>eu.pisolutions</groupId>
+        <artifactId>pi-parent</artifactId>
+        <version>1.1.0</version>
+        <relativePath>../pi-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>pi-yenc</artifactId>
+    <version>0.1.0</version>
+    <name>Pi yEnc</name>
+    <packaging>bundle</packaging>
+    <description>yEnc library.</description>
+    <inceptionYear>2011</inceptionYear>
+
+    <dependencies>
+        <dependency>
+            <groupId>eu.pisolutions</groupId>
+            <artifactId>pi-commons</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.pisolutions</groupId>
+            <artifactId>pi-lop</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
