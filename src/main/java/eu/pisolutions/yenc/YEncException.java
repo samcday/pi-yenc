@@ -23,6 +23,8 @@ import java.io.IOException;
 
 public class YEncException
 extends IOException {
+    private static final long serialVersionUID = 1L;
+
     public YEncException(String message) {
         super(message);
     }

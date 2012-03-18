@@ -19,14 +19,19 @@
 
 package eu.pisolutions.yenc;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eu.pisolutions.lang.Strings;
+import eu.pisolutions.regex.CharClass;
+import eu.pisolutions.regex.Regex;
 
 public final class YEncSubject
-extends Object {
-    private static final Pattern PATTERN = Pattern.compile("^ *(?:([^\"]*) )?\"([^\"]+)\" yEnc *(?:\\((\\d+)/(\\d+)\\) *)?(?:(\\d+) *)?(?:(.+) *)?$");
+extends Object
+implements Serializable {
+    private static final Pattern PATTERN = YEncSubject.createPattern();
+    private static final long serialVersionUID = 1L;
 
     public static YEncSubject parseSubject(String string) {
         if (string == null) {
@@ -39,19 +44,57 @@ extends Object {
         }
 
         final YEncSubject subject = new YEncSubject();
-        subject.setComment1(matcher.group(1));
-        subject.setFileName(matcher.group(2));
+        subject.comment1 = matcher.group(1);
+        subject.fileName = matcher.group(2);
         final String part = matcher.group(3);
         if (part != null) {
-            subject.setPartIndex(Integer.parseInt(part) - 1);
-            subject.setPartCount(Integer.parseInt(matcher.group(4)));
+            subject.partIndex = Integer.parseInt(part) - 1;
+            subject.partCount = Integer.parseInt(matcher.group(4));
         }
         final String size = matcher.group(5);
         if (!Strings.isEmpty(size)) {
-            subject.setSize(Integer.parseInt(size));
+            subject.size = Integer.parseInt(size);
         }
-        subject.setComment2(matcher.group(6));
+        subject.comment2 = matcher.group(6);
         return subject;
+    }
+
+    private static Pattern createPattern() {
+        final Regex space = Regex.literal(" ");
+        final Regex spaces = space.zeroOrMore();
+        final Regex quote = Regex.literal("\"");
+        final Regex notQuote = CharClass.oneOf("\"", true);
+        final Regex digitGroup = CharClass.DIGIT.atLeastOnce().group();
+        return Regex.sequence(
+            Regex.LINE_BEGIN,
+            spaces,
+            Regex.sequence(
+                notQuote.zeroOrMore().group(), // Comment 1
+                space
+            ).optional(),
+            quote,
+            notQuote.atLeastOnce().group(), // File name
+            quote,
+            Regex.literal(" yEnc"),
+            spaces,
+            Regex.sequence(
+                Regex.literal("("),
+                digitGroup, // Part index
+                Regex.literal("/"),
+                digitGroup, // Part count
+                Regex.literal(")"),
+                spaces
+            ).optional(),
+            Regex.sequence(
+                digitGroup, // Size
+                spaces
+            ).optional(),
+            Regex.sequence(
+                CharClass.ANY.atLeastOnce().group(), // Comment 2
+                spaces
+            ).optional(),
+            Regex.LINE_END
+        ).toPattern();
     }
 
     private String fileName;

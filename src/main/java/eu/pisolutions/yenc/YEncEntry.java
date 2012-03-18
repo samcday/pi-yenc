@@ -19,13 +19,18 @@
 
 package eu.pisolutions.yenc;
 
+import java.io.Serializable;
+
 /**
  * Entry in a yEnc stream.
  *
  * @author Laurent Pireyn
  */
 public final class YEncEntry
-extends Object {
+extends Object
+implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String name;
     private int size;
     private int lineLength;
