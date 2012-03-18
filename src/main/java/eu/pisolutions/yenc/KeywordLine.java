@@ -19,13 +19,17 @@
 
 package eu.pisolutions.yenc;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import eu.pisolutions.lang.Strings;
 
 final class KeywordLine
-extends Object {
+extends Object
+implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private static YEncException createException(String name, String value, Throwable cause) {
         return new YEncException("Invalid value '" + value + "' for parameter '" + name + "' in keyword line", cause);
     }

@@ -19,14 +19,17 @@
 
 package eu.pisolutions.yenc;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eu.pisolutions.lang.Strings;
 
 public final class YEncSubject
-extends Object {
+extends Object
+implements Serializable {
     private static final Pattern PATTERN = Pattern.compile("^ *(?:([^\"]*) )?\"([^\"]+)\" yEnc *(?:\\((\\d+)/(\\d+)\\) *)?(?:(\\d+) *)?(?:(.+) *)?$");
+    private static final long serialVersionUID = 1L;
 
     public static YEncSubject parseSubject(String string) {
         if (string == null) {
