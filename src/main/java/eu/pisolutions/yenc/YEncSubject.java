@@ -39,18 +39,18 @@ extends Object {
         }
 
         final YEncSubject subject = new YEncSubject();
-        subject.setComment1(matcher.group(1));
-        subject.setFileName(matcher.group(2));
+        subject.comment1 = matcher.group(1);
+        subject.fileName = matcher.group(2);
         final String part = matcher.group(3);
         if (part != null) {
-            subject.setPartIndex(Integer.parseInt(part) - 1);
-            subject.setPartCount(Integer.parseInt(matcher.group(4)));
+            subject.partIndex = Integer.parseInt(part) - 1;
+            subject.partCount = Integer.parseInt(matcher.group(4));
         }
         final String size = matcher.group(5);
         if (!Strings.isEmpty(size)) {
-            subject.setSize(Integer.parseInt(size));
+            subject.size = Integer.parseInt(size);
         }
-        subject.setComment2(matcher.group(6));
+        subject.comment2 = matcher.group(6);
         return subject;
     }
 
