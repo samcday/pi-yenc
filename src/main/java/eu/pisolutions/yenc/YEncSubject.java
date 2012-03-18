@@ -24,11 +24,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eu.pisolutions.lang.Strings;
+import eu.pisolutions.regex.CharClass;
+import eu.pisolutions.regex.Regex;
 
 public final class YEncSubject
 extends Object
 implements Serializable {
-    private static final Pattern PATTERN = Pattern.compile("^ *(?:([^\"]*) )?\"([^\"]+)\" yEnc *(?:\\((\\d+)/(\\d+)\\) *)?(?:(\\d+) *)?(?:(.+) *)?$");
+    private static final Pattern PATTERN = YEncSubject.createPattern();
     private static final long serialVersionUID = 1L;
 
     public static YEncSubject parseSubject(String string) {
@@ -55,6 +57,44 @@ implements Serializable {
         }
         subject.comment2 = matcher.group(6);
         return subject;
+    }
+
+    private static Pattern createPattern() {
+        final Regex space = Regex.literal(" ");
+        final Regex spaces = space.zeroOrMore();
+        final Regex quote = Regex.literal("\"");
+        final Regex notQuote = CharClass.oneOf("\"", true);
+        final Regex digitGroup = CharClass.DIGIT.atLeastOnce().group();
+        return Regex.sequence(
+            Regex.LINE_BEGIN,
+            spaces,
+            Regex.sequence(
+                notQuote.zeroOrMore().group(), // Comment 1
+                space
+            ).optional(),
+            quote,
+            notQuote.atLeastOnce().group(), // File name
+            quote,
+            Regex.literal(" yEnc"),
+            spaces,
+            Regex.sequence(
+                Regex.literal("("),
+                digitGroup, // Part index
+                Regex.literal("/"),
+                digitGroup, // Part count
+                Regex.literal(")"),
+                spaces
+            ).optional(),
+            Regex.sequence(
+                digitGroup, // Size
+                spaces
+            ).optional(),
+            Regex.sequence(
+                CharClass.ANY.atLeastOnce().group(), // Comment 2
+                spaces
+            ).optional(),
+            Regex.LINE_END
+        ).toPattern();
     }
 
     private String fileName;
