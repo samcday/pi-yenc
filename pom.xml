@@ -33,6 +33,11 @@
             <version>0.2.0-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>eu.pisolutions</groupId>
+            <artifactId>pi-regex</artifactId>
+            <version>0.2.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>test</scope>
