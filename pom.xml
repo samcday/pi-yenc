@@ -21,6 +21,16 @@
     <description>yEnc library.</description>
     <inceptionYear>2011</inceptionYear>
 
+    <properties>
+        <githubProject>pi-yenc</githubProject>
+    </properties>
+
+    <scm>
+        <connection>scm:git:git://${githubHost}/${githubUser}/${githubProject}.git</connection>
+        <developerConnection>scm:git:git@${githubHost}/${githubUser}/${githubProject}.git</developerConnection>
+        <url>http://${githubHost}/${githubUser}/${githubProject}</url>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>eu.pisolutions</groupId>
